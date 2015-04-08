@@ -1,2 +1,55 @@
 ﻿<h1>Tournament</h1>
 
+<div class="input-group col-lg-3">
+    <input type="text" class="form-control">
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Search</button>
+    </span>
+</div>
+<br/>
+<div class="row">
+    <div class="col-lg-9">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tournament Name</th>
+                    <th>Number of participants</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>League of Legends</td>
+                    <td>64</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Game Tournament Drachten</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Chess Tournament</td>
+                    <td>128</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Eat HotDogs</td>
+                    <td>12</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-lg-3 right" style="margin-top:20px">
+        <div class="list-group">
+            <a href="@Url.Action("CreateTournament", "Tournament")" class="list-group-item">
+                Create Tournament
+            </a>
+            <a href="#" class="list-group-item">
+                Your Tournaments
+            </a>
+        </div>
+    </div>
+</div>

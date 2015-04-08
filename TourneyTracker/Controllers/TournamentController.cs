@@ -13,5 +13,16 @@ namespace TourneyTracker.Controllers
         {
             return View();
         }
+
+        public ActionResult CreateTournament()
+        {
+            return View();
+        }
+
+        public ActionResult AddParticipantsDialog()
+        {
+            return View();
+        }
+
     }
 }

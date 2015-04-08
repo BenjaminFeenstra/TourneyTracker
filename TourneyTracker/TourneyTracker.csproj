@@ -115,6 +115,8 @@
     <Content Include="Scripts\jquery-2.1.3.min.map" />
     <Content Include="Views\Tournament\Index.cshtml" />
     <Content Include="Views\Player\Index.cshtml" />
+    <Content Include="Views\Tournament\CreateTournament.cshtml" />
+    <Content Include="Views\Tournament\AddParticipantsDialog.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
