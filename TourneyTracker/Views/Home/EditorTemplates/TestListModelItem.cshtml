@@ -1,0 +1,8 @@
+﻿@model TourneyTracker.Models.Home.TestListModelItem
+
+<tr>
+    <td>@Model.id</td>
+    <td>@Model.text</td>
+    @Html.HiddenFor(m => m.id)    
+    @Html.HiddenFor(m => m.text)
+</tr>
