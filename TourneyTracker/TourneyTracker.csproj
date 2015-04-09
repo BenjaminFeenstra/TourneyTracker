@@ -117,7 +117,6 @@
     <Content Include="Views\Tournament\Index.cshtml" />
     <Content Include="Views\Player\Index.cshtml" />
     <Content Include="Views\Tournament\CreateTournament.cshtml" />
-    <Content Include="Views\Tournament\AddParticipantsDialog.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug.config">

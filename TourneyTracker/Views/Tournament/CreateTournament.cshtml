@@ -50,7 +50,7 @@
             <form class="form-horizontal">
                 <fieldset>
                     <legend>Participants</legend>
-                    <div class="col-lg-8">
+                    <div class="col-lg-10">
                         <table class="table table-striped table-hover table-scrollable">
                             <thead>
                                 <tr>
@@ -94,18 +94,18 @@
                             </tbody>
                         </table>
                     </div>
-                    <button type="reset" class="btn btn-default addParticipantButton">Add participants</button>
+                    <div class="input-group col-lg-10">
+                        <input type="text" class="form-control" id="inputName" placeholder="Name">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Add</button>
+                        </span>
+                    </div>
                 </fieldset>
             </form>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
-    $('body').on('click', '.addParticipantButton', function() {
-        alert("test");
-    });
-</script>
 
 <style>
     table {
