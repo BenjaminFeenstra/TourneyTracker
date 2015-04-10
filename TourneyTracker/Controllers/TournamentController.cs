@@ -24,17 +24,20 @@ namespace TourneyTracker.Controllers
 
         public ActionResult AddParticipant(CreateTournamentViewModel tournamentViewModel, string participantName)
         {
-            Participant participant = new Participant();
-            participant.Name = participantName;
-            participant.Number = tournamentViewModel.Participants.Count + 1;
-            tournamentViewModel.Participants.Add(participant);
+            tournamentViewModel.Participants.Add(participantName);
             return PartialView("~/Views/Tournament/Partial/_ParticipantTable.cshtml", tournamentViewModel);
         }
 
-        // POST: CreateTournament
-        [HttpPost]
-        public ActionResult CreateTournament(CreateTournamentViewModel tournamentViewModel)
+        public ActionResult RemoveParticipant(CreateTournamentViewModel tournamentViewModel, string participantName)
         {
+            //remove participant
+            return PartialView("~/Views/Tournament/Partial/_ParticipantTable.cshtml", tournamentViewModel);
+        }
+
+        // POST: SubmitTournament
+        public ActionResult SubmitTournament(CreateTournamentViewModel tournamentViewModel)
+        {
+            //save tournament and see the tournament page
             return View();
         }
 

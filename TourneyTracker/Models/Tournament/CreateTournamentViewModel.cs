@@ -15,12 +15,12 @@ namespace TourneyTracker.Models.Tournament
 
         public string TournamentTag { get; set; }
 
-        public List<Participant> Participants { get; set; }
+        public List<string> Participants { get; set; }
 
         public CreateTournamentViewModel()
         {
             this.TournamentTypes = new List<SelectListItem>();
-            this.Participants = new List<Participant>();
+            this.Participants = new List<string>();
         }
     }
 }

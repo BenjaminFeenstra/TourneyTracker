@@ -34,8 +34,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
-                            <button type="reset" class="btn btn-default">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            @Html.ActionLink("Cancel", "Index", "Tournament", new { @type = "button", @class = "btn btn-default" })
+                            <button type="button" class="btn btn-primary submitButton">Submit</button>
                         </div>
                     </div>
                 </fieldset>
@@ -44,7 +44,7 @@
     </div>
     <div class="col-lg-6">
         <div class="well bs-component">
-            <form id="test123" class="form-horizontal">
+            <form class="form-horizontal">
                 <fieldset>
                     <div id="participantTable">
                         @Html.Partial("~/Views/Tournament/Partial/_ParticipantTable.cshtml", Model)
@@ -58,12 +58,29 @@
 <script type="text/javascript">
     $('body').on('click', '.addParticipant', function () {
         var participantName = $('#inputName').val();
+        if (jQuery.trim(participantName).length != 0) {
+            $.ajax({
+                url: '@Url.Action("AddParticipant","Tournament")',
+                data: $('#createForm :input').serialize() + '&participantName=' + participantName,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $('#participantTable').html(data);
+                }
+            });
+        }
+        else
+        {
+            //name is only spaces or nothing so error message
+        }
+    });
+
+    $('body').on('click', '.submitButton', function () {
         $.ajax({
-            url: '@Url.Action("AddParticipant","Tournament")',
-            data: $('#createForm :input').serialize() + '&participantName=' + participantName,
+            url: '@Url.Action("SubmitTournament", "Tournament")',
+            data: $('#createForm :input').serialize(),
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $('#participantTable').html(data);
+
             }
         });
     });

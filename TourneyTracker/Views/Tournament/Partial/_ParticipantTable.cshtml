@@ -11,12 +11,19 @@
                 </tr>
             </thead>
             <tbody>
-                @Html.EditorFor(m => m.Participants)
+                @for(int i = 0; i < Model.Participants.Count;i++)
+                {
+                    <tr>
+                        <td>@(i+1)</td>
+                        <td>@Model.Participants[i]</td>
+                        @Html.Hidden("Participants[" + i + "]", Model.Participants[i])
+                    </tr>
+                }
             </tbody>
         </table>
 </div>
 <div class="input-group col-lg-10">
-    <input type="text" class="form-control" id="inputName" placeholder="Name">
+    <input type="text" class="form-control" id="inputName" placeholder="Name"/>
     <span class="input-group-btn">
         <button class="btn btn-default addParticipant" type="button">Add</button>
     </span>
