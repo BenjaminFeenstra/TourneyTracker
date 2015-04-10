@@ -1,6 +1,8 @@
-﻿<h1>Create Tournament</h1>
+﻿@model TourneyTracker.Models.Tournament.CreateTournamentViewModel
 
-<div class="row">
+<h1>Create Tournament</h1>
+
+<div id="createForm" class="row">
     <div class="col-lg-6">
         <div class="well bs-component">
             <form class="form-horizontal">
@@ -8,31 +10,26 @@
                     <legend>Create Tournament</legend>
                     <div class="form-group">
                         <div class="col-lg-2">
-                            <label for="inputName" class="control-label">Name</label>
+                            @Html.LabelFor(m => m.TournamentName, "Name", new { @class = "control-label" })
                         </div>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" id="inputName" placeholder="Name">
+                            @Html.TextBoxFor(m => m.TournamentName, new { @class = "form-control", @placeholder = "Name", @type = "text" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-2">
-                            <label for="select" class="control-label">Type</label>
+                            @Html.LabelFor(m => m.TournamentType, "Type", new { @class = "control-label" })
                         </div>
                         <div class="col-lg-10">
-                            <select class="form-control" id="select">
-                                <option>Choose a tournament type</option>
-                                <option>Competition</option>
-                                <option>Knock-out system</option>
-                                <option>Combination</option>
-                            </select>
+                            @Html.DropDownListFor(m => m.TournamentType, Model.TournamentTypes, "Choose a tournament type", new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-2">
-                            <label for="inputTag" class="control-label">Tag</label>
+                            @Html.LabelFor(m => m.TournamentTag, "Tag", new { @class = "control-label" })
                         </div>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" id="inputTag" placeholder="Tag">
+                            @Html.TextBoxFor(m => m.TournamentTag, new { @class = "form-control", @placeholder = "Tag", @type = "text" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -47,64 +44,30 @@
     </div>
     <div class="col-lg-6">
         <div class="well bs-component">
-            <form class="form-horizontal">
+            <form id="test123" class="form-horizontal">
                 <fieldset>
-                    <legend>Participants</legend>
-                    <div class="col-lg-10">
-                        <table class="table table-striped table-hover table-scrollable">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Participant</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>9292ov</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Pay4yourlife</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Trolololol</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>GummBear</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Feedstra</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>Kennen4Life</td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td>Banaan</td>
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td>Faalhaas</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="input-group col-lg-10">
-                        <input type="text" class="form-control" id="inputName" placeholder="Name">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Add</button>
-                        </span>
+                    <div id="participantTable">
+                        @Html.Partial("~/Views/Tournament/Partial/_ParticipantTable.cshtml", Model)
                     </div>
                 </fieldset>
             </form>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('body').on('click', '.addParticipant', function () {
+        var participantName = $('#inputName').val();
+        $.ajax({
+            url: '@Url.Action("AddParticipant","Tournament")',
+            data: $('#createForm :input').serialize() + '&participantName=' + participantName,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#participantTable').html(data);
+            }
+        });
+    });
+</script>
 
 
 <style>
