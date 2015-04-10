@@ -1,2 +1,19 @@
-﻿<h1>Index</h1>
+﻿@model TourneyTracker.Models.Home.IndexModel
+<h1>Index</h1>
 
+<form id="testform">
+    @Html.EditorFor(m => m.TestList)
+</form>
+
+<script type="text/javascript">
+    $(document).on('click', '#inputSubmit', function () {
+        $.ajax({
+            url: '@Url.Action("AddTestItem", "Home")',
+            contentType: "application/json; charset=utf-8",
+            data: $('#testform :input').serialize(),
+            success: function (html) {
+                $('#testform').html(html);
+            }
+        });
+    });
+</script>

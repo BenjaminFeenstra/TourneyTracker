@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using TourneyTracker.Models.Account;
 
 namespace TourneyTracker.Controllers
 {
@@ -12,19 +13,27 @@ namespace TourneyTracker.Controllers
         // GET: Account
         public ActionResult Register()
         {
+            ModelState.Clear();
             return View();
         }
 
         [HttpPost]
-        public ActionResult Register(/*RegisterModel model*/string dummy)
+        public ActionResult Register(RegisterModel model)
         {
+            //kijk of e-mail al bestaat
+            if (true)
+            {
+                ModelState.AddModelError("Email", "E-mailadres al in gebruik.");
+            }
+
             if (ModelState.IsValid)
             {
                 //voeg gebruiker toe aan de database
-                return Login();
+                return RedirectToAction("Login");
             }
-
-            return View(/*RegisterModel*/);
+            ModelState.Remove("Password");
+            model.Password = "";
+            return View(model);
         }
 
         public ActionResult Login()
