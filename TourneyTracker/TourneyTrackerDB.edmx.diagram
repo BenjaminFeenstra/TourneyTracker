@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1e9e8e771f004d67897e6f5365c6af7d" Name="Diagram1">
+        <EntityTypeShape EntityType="TourneyTrackerDBModel.account" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyTrackerDBModel.match" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyTrackerDBModel.match_winner_type" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyTrackerDBModel.participant" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyTrackerDBModel.tournament" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyTrackerDBModel.tournament_participant_rel" Width="1.5" PointX="8.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TourneyTrackerDBModel.tournament_type" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="TourneyTrackerDBModel.FK_tournament_account" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyTrackerDBModel.FK_match_match_winner_type" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyTrackerDBModel.FK_match_participant" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyTrackerDBModel.FK_match_participant1" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyTrackerDBModel.FK_match_tournament" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyTrackerDBModel.FK_tournament_participant_rel_participant" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyTrackerDBModel.FK_tournament_participant_rel_tournament" ManuallyRouted="false" />
+        <AssociationConnector Association="TourneyTrackerDBModel.FK_tournament_tournament_type" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

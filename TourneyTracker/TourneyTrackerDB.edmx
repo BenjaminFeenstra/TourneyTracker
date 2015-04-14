@@ -1,0 +1,522 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TourneyTrackerDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="account">
+          <Key>
+            <PropertyRef Name="account_id" />
+          </Key>
+          <Property Name="account_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="emailaddress" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="password_salt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="password_hash" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="match">
+          <Key>
+            <PropertyRef Name="match_id" />
+          </Key>
+          <Property Name="match_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tournament_id" Type="int" Nullable="false" />
+          <Property Name="participant_number_one" Type="int" Nullable="false" />
+          <Property Name="participant_number_two" Type="int" Nullable="false" />
+          <Property Name="score_one" Type="int" />
+          <Property Name="score_two" Type="int" />
+          <Property Name="match_winner_type_id" Type="int" />
+          <Property Name="message" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="match_winner_type">
+          <Key>
+            <PropertyRef Name="match_winner_type_id" />
+          </Key>
+          <Property Name="match_winner_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="match_winner_type_value" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="participant">
+          <Key>
+            <PropertyRef Name="participant_id" />
+          </Key>
+          <Property Name="participant_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="participant_name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tournament">
+          <Key>
+            <PropertyRef Name="tournament_id" />
+          </Key>
+          <Property Name="tournament_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tournament_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="tournament_host_id" Type="int" Nullable="false" />
+          <Property Name="tournament_type_id" Type="int" Nullable="false" />
+          <Property Name="number_participants" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tournament_participant_rel">
+          <Key>
+            <PropertyRef Name="tournament_participant_id" />
+          </Key>
+          <Property Name="tournament_participant_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tournament_id" Type="int" Nullable="false" />
+          <Property Name="participant_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tournament_type">
+          <Key>
+            <PropertyRef Name="tournament_type_id" />
+          </Key>
+          <Property Name="tournament_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tournament_type_name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_match_match_winner_type">
+          <End Role="match_winner_type" Type="Self.match_winner_type" Multiplicity="0..1" />
+          <End Role="match" Type="Self.match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="match_winner_type">
+              <PropertyRef Name="match_winner_type_id" />
+            </Principal>
+            <Dependent Role="match">
+              <PropertyRef Name="match_winner_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_match_participant">
+          <End Role="participant" Type="Self.participant" Multiplicity="1" />
+          <End Role="match" Type="Self.match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="participant">
+              <PropertyRef Name="participant_id" />
+            </Principal>
+            <Dependent Role="match">
+              <PropertyRef Name="participant_number_one" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_match_participant1">
+          <End Role="participant" Type="Self.participant" Multiplicity="1" />
+          <End Role="match" Type="Self.match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="participant">
+              <PropertyRef Name="participant_id" />
+            </Principal>
+            <Dependent Role="match">
+              <PropertyRef Name="participant_number_two" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_match_tournament">
+          <End Role="tournament" Type="Self.tournament" Multiplicity="1" />
+          <End Role="match" Type="Self.match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tournament">
+              <PropertyRef Name="tournament_id" />
+            </Principal>
+            <Dependent Role="match">
+              <PropertyRef Name="tournament_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tournament_account">
+          <End Role="account" Type="Self.account" Multiplicity="1" />
+          <End Role="tournament" Type="Self.tournament" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="tournament">
+              <PropertyRef Name="tournament_host_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tournament_participant_rel_participant">
+          <End Role="participant" Type="Self.participant" Multiplicity="1" />
+          <End Role="tournament_participant_rel" Type="Self.tournament_participant_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="participant">
+              <PropertyRef Name="participant_id" />
+            </Principal>
+            <Dependent Role="tournament_participant_rel">
+              <PropertyRef Name="participant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tournament_participant_rel_tournament">
+          <End Role="tournament" Type="Self.tournament" Multiplicity="1" />
+          <End Role="tournament_participant_rel" Type="Self.tournament_participant_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tournament">
+              <PropertyRef Name="tournament_id" />
+            </Principal>
+            <Dependent Role="tournament_participant_rel">
+              <PropertyRef Name="tournament_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tournament_tournament_type">
+          <End Role="tournament_type" Type="Self.tournament_type" Multiplicity="1" />
+          <End Role="tournament" Type="Self.tournament" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tournament_type">
+              <PropertyRef Name="tournament_type_id" />
+            </Principal>
+            <Dependent Role="tournament">
+              <PropertyRef Name="tournament_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TourneyTrackerDBModelStoreContainer">
+          <EntitySet Name="account" EntityType="Self.account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="match" EntityType="Self.match" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="match_winner_type" EntityType="Self.match_winner_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="participant" EntityType="Self.participant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tournament" EntityType="Self.tournament" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tournament_participant_rel" EntityType="Self.tournament_participant_rel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tournament_type" EntityType="Self.tournament_type" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_match_match_winner_type" Association="Self.FK_match_match_winner_type">
+            <End Role="match_winner_type" EntitySet="match_winner_type" />
+            <End Role="match" EntitySet="match" />
+          </AssociationSet>
+          <AssociationSet Name="FK_match_participant" Association="Self.FK_match_participant">
+            <End Role="participant" EntitySet="participant" />
+            <End Role="match" EntitySet="match" />
+          </AssociationSet>
+          <AssociationSet Name="FK_match_participant1" Association="Self.FK_match_participant1">
+            <End Role="participant" EntitySet="participant" />
+            <End Role="match" EntitySet="match" />
+          </AssociationSet>
+          <AssociationSet Name="FK_match_tournament" Association="Self.FK_match_tournament">
+            <End Role="tournament" EntitySet="tournament" />
+            <End Role="match" EntitySet="match" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tournament_account" Association="Self.FK_tournament_account">
+            <End Role="account" EntitySet="account" />
+            <End Role="tournament" EntitySet="tournament" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tournament_participant_rel_participant" Association="Self.FK_tournament_participant_rel_participant">
+            <End Role="participant" EntitySet="participant" />
+            <End Role="tournament_participant_rel" EntitySet="tournament_participant_rel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tournament_participant_rel_tournament" Association="Self.FK_tournament_participant_rel_tournament">
+            <End Role="tournament" EntitySet="tournament" />
+            <End Role="tournament_participant_rel" EntitySet="tournament_participant_rel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tournament_tournament_type" Association="Self.FK_tournament_tournament_type">
+            <End Role="tournament_type" EntitySet="tournament_type" />
+            <End Role="tournament" EntitySet="tournament" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TourneyTrackerDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="account">
+          <Key>
+            <PropertyRef Name="account_id" />
+          </Key>
+          <Property Name="account_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="emailaddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password_salt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password_hash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tournaments" Relationship="Self.FK_tournament_account" FromRole="account" ToRole="tournament" />
+        </EntityType>
+        <EntityType Name="match">
+          <Key>
+            <PropertyRef Name="match_id" />
+          </Key>
+          <Property Name="match_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tournament_id" Type="Int32" Nullable="false" />
+          <Property Name="participant_number_one" Type="Int32" Nullable="false" />
+          <Property Name="participant_number_two" Type="Int32" Nullable="false" />
+          <Property Name="score_one" Type="Int32" />
+          <Property Name="score_two" Type="Int32" />
+          <Property Name="match_winner_type_id" Type="Int32" />
+          <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="match_winner_type" Relationship="Self.FK_match_match_winner_type" FromRole="match" ToRole="match_winner_type" />
+          <NavigationProperty Name="participant" Relationship="Self.FK_match_participant" FromRole="match" ToRole="participant" />
+          <NavigationProperty Name="participant1" Relationship="Self.FK_match_participant1" FromRole="match" ToRole="participant" />
+          <NavigationProperty Name="tournament" Relationship="Self.FK_match_tournament" FromRole="match" ToRole="tournament" />
+        </EntityType>
+        <EntityType Name="match_winner_type">
+          <Key>
+            <PropertyRef Name="match_winner_type_id" />
+          </Key>
+          <Property Name="match_winner_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="match_winner_type_value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="matches" Relationship="Self.FK_match_match_winner_type" FromRole="match_winner_type" ToRole="match" />
+        </EntityType>
+        <EntityType Name="participant">
+          <Key>
+            <PropertyRef Name="participant_id" />
+          </Key>
+          <Property Name="participant_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="participant_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="matches" Relationship="Self.FK_match_participant" FromRole="participant" ToRole="match" />
+          <NavigationProperty Name="matches1" Relationship="Self.FK_match_participant1" FromRole="participant" ToRole="match" />
+          <NavigationProperty Name="tournament_participant_rel" Relationship="Self.FK_tournament_participant_rel_participant" FromRole="participant" ToRole="tournament_participant_rel" />
+        </EntityType>
+        <EntityType Name="tournament">
+          <Key>
+            <PropertyRef Name="tournament_id" />
+          </Key>
+          <Property Name="tournament_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tournament_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tournament_host_id" Type="Int32" Nullable="false" />
+          <Property Name="tournament_type_id" Type="Int32" Nullable="false" />
+          <Property Name="number_participants" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="account" Relationship="Self.FK_tournament_account" FromRole="tournament" ToRole="account" />
+          <NavigationProperty Name="matches" Relationship="Self.FK_match_tournament" FromRole="tournament" ToRole="match" />
+          <NavigationProperty Name="tournament_participant_rel" Relationship="Self.FK_tournament_participant_rel_tournament" FromRole="tournament" ToRole="tournament_participant_rel" />
+          <NavigationProperty Name="tournament_type" Relationship="Self.FK_tournament_tournament_type" FromRole="tournament" ToRole="tournament_type" />
+        </EntityType>
+        <EntityType Name="tournament_participant_rel">
+          <Key>
+            <PropertyRef Name="tournament_participant_id" />
+          </Key>
+          <Property Name="tournament_participant_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tournament_id" Type="Int32" Nullable="false" />
+          <Property Name="participant_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="participant" Relationship="Self.FK_tournament_participant_rel_participant" FromRole="tournament_participant_rel" ToRole="participant" />
+          <NavigationProperty Name="tournament" Relationship="Self.FK_tournament_participant_rel_tournament" FromRole="tournament_participant_rel" ToRole="tournament" />
+        </EntityType>
+        <EntityType Name="tournament_type">
+          <Key>
+            <PropertyRef Name="tournament_type_id" />
+          </Key>
+          <Property Name="tournament_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tournament_type_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tournaments" Relationship="Self.FK_tournament_tournament_type" FromRole="tournament_type" ToRole="tournament" />
+        </EntityType>
+        <Association Name="FK_tournament_account">
+          <End Role="account" Type="Self.account" Multiplicity="1" />
+          <End Role="tournament" Type="Self.tournament" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="tournament">
+              <PropertyRef Name="tournament_host_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_match_match_winner_type">
+          <End Role="match_winner_type" Type="Self.match_winner_type" Multiplicity="0..1" />
+          <End Role="match" Type="Self.match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="match_winner_type">
+              <PropertyRef Name="match_winner_type_id" />
+            </Principal>
+            <Dependent Role="match">
+              <PropertyRef Name="match_winner_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_match_participant">
+          <End Role="participant" Type="Self.participant" Multiplicity="1" />
+          <End Role="match" Type="Self.match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="participant">
+              <PropertyRef Name="participant_id" />
+            </Principal>
+            <Dependent Role="match">
+              <PropertyRef Name="participant_number_one" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_match_participant1">
+          <End Role="participant" Type="Self.participant" Multiplicity="1" />
+          <End Role="match" Type="Self.match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="participant">
+              <PropertyRef Name="participant_id" />
+            </Principal>
+            <Dependent Role="match">
+              <PropertyRef Name="participant_number_two" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_match_tournament">
+          <End Role="tournament" Type="Self.tournament" Multiplicity="1" />
+          <End Role="match" Type="Self.match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tournament">
+              <PropertyRef Name="tournament_id" />
+            </Principal>
+            <Dependent Role="match">
+              <PropertyRef Name="tournament_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tournament_participant_rel_participant">
+          <End Role="participant" Type="Self.participant" Multiplicity="1" />
+          <End Role="tournament_participant_rel" Type="Self.tournament_participant_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="participant">
+              <PropertyRef Name="participant_id" />
+            </Principal>
+            <Dependent Role="tournament_participant_rel">
+              <PropertyRef Name="participant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tournament_participant_rel_tournament">
+          <End Role="tournament" Type="Self.tournament" Multiplicity="1" />
+          <End Role="tournament_participant_rel" Type="Self.tournament_participant_rel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tournament">
+              <PropertyRef Name="tournament_id" />
+            </Principal>
+            <Dependent Role="tournament_participant_rel">
+              <PropertyRef Name="tournament_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tournament_tournament_type">
+          <End Role="tournament_type" Type="Self.tournament_type" Multiplicity="1" />
+          <End Role="tournament" Type="Self.tournament" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tournament_type">
+              <PropertyRef Name="tournament_type_id" />
+            </Principal>
+            <Dependent Role="tournament">
+              <PropertyRef Name="tournament_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TourneyTrackerDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="accounts" EntityType="Self.account" />
+          <EntitySet Name="matches" EntityType="Self.match" />
+          <EntitySet Name="match_winner_type" EntityType="Self.match_winner_type" />
+          <EntitySet Name="participants" EntityType="Self.participant" />
+          <EntitySet Name="tournaments" EntityType="Self.tournament" />
+          <EntitySet Name="tournament_participant_rel" EntityType="Self.tournament_participant_rel" />
+          <EntitySet Name="tournament_type" EntityType="Self.tournament_type" />
+          <AssociationSet Name="FK_tournament_account" Association="Self.FK_tournament_account">
+            <End Role="account" EntitySet="accounts" />
+            <End Role="tournament" EntitySet="tournaments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_match_match_winner_type" Association="Self.FK_match_match_winner_type">
+            <End Role="match_winner_type" EntitySet="match_winner_type" />
+            <End Role="match" EntitySet="matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_match_participant" Association="Self.FK_match_participant">
+            <End Role="participant" EntitySet="participants" />
+            <End Role="match" EntitySet="matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_match_participant1" Association="Self.FK_match_participant1">
+            <End Role="participant" EntitySet="participants" />
+            <End Role="match" EntitySet="matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_match_tournament" Association="Self.FK_match_tournament">
+            <End Role="tournament" EntitySet="tournaments" />
+            <End Role="match" EntitySet="matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tournament_participant_rel_participant" Association="Self.FK_tournament_participant_rel_participant">
+            <End Role="participant" EntitySet="participants" />
+            <End Role="tournament_participant_rel" EntitySet="tournament_participant_rel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tournament_participant_rel_tournament" Association="Self.FK_tournament_participant_rel_tournament">
+            <End Role="tournament" EntitySet="tournaments" />
+            <End Role="tournament_participant_rel" EntitySet="tournament_participant_rel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tournament_tournament_type" Association="Self.FK_tournament_tournament_type">
+            <End Role="tournament_type" EntitySet="tournament_type" />
+            <End Role="tournament" EntitySet="tournaments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TourneyTrackerDBModelStoreContainer" CdmEntityContainer="TourneyTrackerDBEntities">
+          <EntitySetMapping Name="accounts">
+            <EntityTypeMapping TypeName="TourneyTrackerDBModel.account">
+              <MappingFragment StoreEntitySet="account">
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+                <ScalarProperty Name="emailaddress" ColumnName="emailaddress" />
+                <ScalarProperty Name="password_salt" ColumnName="password_salt" />
+                <ScalarProperty Name="password_hash" ColumnName="password_hash" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="matches">
+            <EntityTypeMapping TypeName="TourneyTrackerDBModel.match">
+              <MappingFragment StoreEntitySet="match">
+                <ScalarProperty Name="match_id" ColumnName="match_id" />
+                <ScalarProperty Name="tournament_id" ColumnName="tournament_id" />
+                <ScalarProperty Name="participant_number_one" ColumnName="participant_number_one" />
+                <ScalarProperty Name="participant_number_two" ColumnName="participant_number_two" />
+                <ScalarProperty Name="score_one" ColumnName="score_one" />
+                <ScalarProperty Name="score_two" ColumnName="score_two" />
+                <ScalarProperty Name="match_winner_type_id" ColumnName="match_winner_type_id" />
+                <ScalarProperty Name="message" ColumnName="message" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="match_winner_type">
+            <EntityTypeMapping TypeName="TourneyTrackerDBModel.match_winner_type">
+              <MappingFragment StoreEntitySet="match_winner_type">
+                <ScalarProperty Name="match_winner_type_id" ColumnName="match_winner_type_id" />
+                <ScalarProperty Name="match_winner_type_value" ColumnName="match_winner_type_value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="participants">
+            <EntityTypeMapping TypeName="TourneyTrackerDBModel.participant">
+              <MappingFragment StoreEntitySet="participant">
+                <ScalarProperty Name="participant_id" ColumnName="participant_id" />
+                <ScalarProperty Name="participant_name" ColumnName="participant_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tournaments">
+            <EntityTypeMapping TypeName="TourneyTrackerDBModel.tournament">
+              <MappingFragment StoreEntitySet="tournament">
+                <ScalarProperty Name="tournament_id" ColumnName="tournament_id" />
+                <ScalarProperty Name="tournament_name" ColumnName="tournament_name" />
+                <ScalarProperty Name="tournament_host_id" ColumnName="tournament_host_id" />
+                <ScalarProperty Name="tournament_type_id" ColumnName="tournament_type_id" />
+                <ScalarProperty Name="number_participants" ColumnName="number_participants" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tournament_participant_rel">
+            <EntityTypeMapping TypeName="TourneyTrackerDBModel.tournament_participant_rel">
+              <MappingFragment StoreEntitySet="tournament_participant_rel">
+                <ScalarProperty Name="tournament_participant_id" ColumnName="tournament_participant_id" />
+                <ScalarProperty Name="tournament_id" ColumnName="tournament_id" />
+                <ScalarProperty Name="participant_id" ColumnName="participant_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tournament_type">
+            <EntityTypeMapping TypeName="TourneyTrackerDBModel.tournament_type">
+              <MappingFragment StoreEntitySet="tournament_type">
+                <ScalarProperty Name="tournament_type_id" ColumnName="tournament_type_id" />
+                <ScalarProperty Name="tournament_type_name" ColumnName="tournament_type_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

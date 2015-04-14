@@ -28,7 +28,7 @@ namespace TourneyTracker.Controllers
 
             if (ModelState.IsValid)
             {
-                //voeg gebruiker toe aan de database
+                //voeg gebruiker toe aan de database 
                 return RedirectToAction("Login");
             }
             ModelState.Remove("Password");
