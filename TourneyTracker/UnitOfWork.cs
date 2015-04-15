@@ -73,5 +73,18 @@ namespace TourneyTracker
                 return tournament_participantRepository;
             }
         }
+
+        private static GenericRepository<match> matchRepository;
+        public static GenericRepository<match> MatchRepository
+        {
+            get
+            {
+                if (matchRepository == null)
+                {
+                    matchRepository = new GenericRepository<match>(context);
+                }
+                return matchRepository;
+            }
+        }
     }
 }

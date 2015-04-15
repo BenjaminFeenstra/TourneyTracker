@@ -73,8 +73,44 @@ namespace TourneyTracker.Logic
                 };
                 UnitOfWork.Tournament_participant_RelRepository.InsertAndSave(tournament_participant);
             }
+            GenerateCompetition(participantList, newTournament);
+        }
 
+        /// <summary>
+        /// Generate matches for Competition
+        /// </summary>
+        /// <param name="participantList"></param>
+        /// <param name="newTournament"></param>
+        public void GenerateCompetition(List<participant> participantList, tournament newTournament)
+        {
+            //i is 1 because the number of rounds is always participants count - 1
+            for(int round = 1; round < participantList.Count;round++)
+            {
+                var newMatch = new match
+                {
+                    tournament_id = newTournament.tournament_id,
+                    participant_number_one = participantList[0].participant_id,
+                    participant_number_two = participantList[1].participant_id,
+                };
+                UnitOfWork.MatchRepository.InsertAndSave(newMatch);
+                int difference = (participantList.Count - 1) - 2;
+                for(int i = 2; i <= (participantList.Count/2); i++)
+                {
+                    newMatch = new match
+                    {
+                        tournament_id = newTournament.tournament_id,
+                        participant_number_one = participantList[i].participant_id,
+                        participant_number_two = participantList[i + difference].participant_id,
+                    };
+                    UnitOfWork.MatchRepository.InsertAndSave(newMatch);
+                    difference = difference - 2;
+                }
+                //the last participant in the list goes to position 1
+                var lastParticipant = participantList.Last();
+                participantList.Remove(lastParticipant);
+                participantList.Insert(1, lastParticipant);
 
+            }
         }
 
         #endregion
