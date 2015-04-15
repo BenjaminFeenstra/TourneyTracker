@@ -1,23 +1,31 @@
-﻿<div class="page-header">
+﻿@model TourneyTracker.Models.Account.LoginModel
+<div class="page-header">
     <h1>Login</h1>
 </div>
 
 <div class="col-lg-5">
     <div class="well bs-component">
-        <form class="form-horizontal">
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { Class = "form-horizontal" }))
+        {
             <fieldset>
                 <div class="form-group">
                     <div class="col-lg-3">
-                        <label for="inputEmail" class="control-label">E-mail</label>
+                        @Html.LabelFor(m => m.Email, "E-mail", new { Class = "control-label" })
                     </div>
                     <div class="col-lg-9">
-                        <input type="email" class="form-control" id="inputEmail" placeholder="E-mail" required>
+                        @Html.TextBoxFor(m => m.Email, new { Type = "email", Class = "form-control", placeholder = "E-mail", required = true })
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                    @Html.LabelFor(m => m.Password, "Password", new { Class = "col-lg-2 control-label" })
                     <div class="col-lg-9 col-lg-offset-1">
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+                        @Html.TextBoxFor(m => m.Password, new { Type = "password", Class = "form-control", placeholder = "Password", required = true })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-9">
+                        @Html.CheckBoxFor(m => m.IsPersistent)
+                        @Html.LabelFor(m => m.IsPersistent, "Remember me")
                     </div>
                 </div>
                 <div class="form-group">
@@ -25,7 +33,14 @@
                         <input type="submit" class="btn btn-primary col-lg-12" value="Login" />
                     </div>
                 </div>
+                @Html.HiddenFor(m => m.ReturnUrl)
+                @Html.CustomHtml5ValidationInit()
             </fieldset>
-        </form>
+        }
     </div>
 </div>
+
+<script type="text/javascript">
+    @Html.CustomHtml5ValidationFor(m => m.Email)
+    @Html.CustomHtml5ValidationFor(m => m.Password)
+</script>

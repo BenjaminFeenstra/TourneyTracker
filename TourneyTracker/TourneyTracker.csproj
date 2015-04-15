@@ -118,6 +118,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="Logic\AccountLogic.cs" />
     <Compile Include="Logic\TournamentLogic.cs" />
     <Compile Include="match.cs">
@@ -126,11 +127,9 @@
     <Compile Include="match_winner_type.cs">
       <DependentUpon>TourneyTrackerDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Tournament\CreateTournamentViewModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
-    <Compile Include="Models\Home\IndexModel.cs" />
-    <Compile Include="Models\Home\TestListModel.cs" />
-    <Compile Include="Models\Home\TestListModelItem.cs" />
     <Compile Include="participant.cs">
       <DependentUpon>TourneyTrackerDB.tt</DependentUpon>
     </Compile>
@@ -176,8 +175,7 @@
     <Content Include="Views\Tournament\CreateTournament.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Home\EditorTemplates\TestListModel.cshtml" />
-    <Content Include="Views\Home\EditorTemplates\TestListModelItem.cshtml" />
+    <Content Include="Views\Tournament\Partial\_ParticipantTable.cshtml" />
     <EntityDeploy Include="TourneyTrackerDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TourneyTrackerDB.Designer.cs</LastGenOutput>
@@ -205,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Home\" />
     <Folder Include="Views\Tournament\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
