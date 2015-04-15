@@ -9,8 +9,6 @@ namespace TourneyTracker.Logic
 {
     public class TournamentLogic
     {
-
-
         #region Get
 
         /// <summary>
@@ -52,18 +50,29 @@ namespace TourneyTracker.Logic
             UnitOfWork.TournamentRepository.InsertAndSave(newTournament);
 
             var allParticipants = UnitOfWork.ParticipantRepository.All();
+            var participantList = new List<participant>();
             //save the new participants
-            //foreach (var participantName in tournamentViewModel.Participants)
-            //{
-            //    if (allParticipants.Where(x => x.participant_name == participantName).Count() == 0)
-            //    {
-            //        var newParticipant = new participant
-            //        {
-            //            participant_name = participantName
-            //        };
-            //        UnitOfWork.ParticipantRepository.InsertAndSave(newParticipant);
-            //    }
-            //}
+            foreach (var participantName in tournamentViewModel.Participants)
+            {
+                var participantExist = allParticipants.Where(x => x.participant_name == participantName).FirstOrDefault();
+                if (participantExist == null)
+                {
+                    var newParticipant = new participant
+                    {
+                        participant_name = participantName
+                    };
+                    UnitOfWork.ParticipantRepository.InsertAndSave(newParticipant);
+                    participantExist = newParticipant;
+                }
+                participantList.Add(participantExist);
+                var tournament_participant = new tournament_participant_rel
+                {
+                    tournament_id = newTournament.tournament_id,
+                    participant_id = participantExist.participant_id
+
+                };
+                UnitOfWork.Tournament_participant_RelRepository.InsertAndSave(tournament_participant);
+            }
 
 
         }

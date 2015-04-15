@@ -45,7 +45,7 @@ namespace TourneyTracker.Controllers
             //save tournament and see the tournament page
             if (ModelState.IsValid)
             {
-                //tournamentLogic.SaveTournament(tournamentViewModel);
+                tournamentLogic.SaveTournament(tournamentViewModel);
             }
             return View();
         }

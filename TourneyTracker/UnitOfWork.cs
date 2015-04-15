@@ -62,7 +62,7 @@ namespace TourneyTracker
         }
 
         private static GenericRepository<tournament_participant_rel> tournament_participantRepository;
-        public static GenericRepository<tournament_participant_rel> Tournament_participantRepository
+        public static GenericRepository<tournament_participant_rel> Tournament_participant_RelRepository
         {
             get
             {
