@@ -86,6 +86,9 @@ namespace TourneyTracker.Logic
             //i is 1 because the number of rounds is always participants count - 1
             for(int round = 1; round < participantList.Count;round++)
             {
+                var lastParticipant = participantList.Last();
+                bool ifOddNumber = false;
+
                 var newMatch = new match
                 {
                     tournament_id = newTournament.tournament_id,
@@ -93,6 +96,12 @@ namespace TourneyTracker.Logic
                     participant_number_two = participantList[1].participant_id,
                 };
                 UnitOfWork.MatchRepository.InsertAndSave(newMatch);
+                if(participantList.Count % 2 != 0)
+                {
+                    ifOddNumber = true;
+                    participantList.Remove(lastParticipant);
+                }
+
                 int difference = (participantList.Count - 1) - 2;
                 for(int i = 2; i <= (participantList.Count/2); i++)
                 {
@@ -105,10 +114,17 @@ namespace TourneyTracker.Logic
                     UnitOfWork.MatchRepository.InsertAndSave(newMatch);
                     difference = difference - 2;
                 }
-                //the last participant in the list goes to position 1
-                var lastParticipant = participantList.Last();
-                participantList.Remove(lastParticipant);
-                participantList.Insert(1, lastParticipant);
+
+                if (!ifOddNumber)
+                {
+                    //the last participant in the list goes to position 1
+                    participantList.Remove(lastParticipant);
+                    participantList.Insert(1, lastParticipant);
+                }
+                else
+                {
+                    participantList.Insert(0, lastParticipant);
+                }
 
             }
         }
