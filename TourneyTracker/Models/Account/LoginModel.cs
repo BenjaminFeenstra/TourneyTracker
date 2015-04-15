@@ -19,5 +19,7 @@ namespace TourneyTracker.Models.Account
 
         [Required]
         public bool IsPersistent { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

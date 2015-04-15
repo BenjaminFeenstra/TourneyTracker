@@ -33,6 +33,7 @@
                         <input type="submit" class="btn btn-primary col-lg-12" value="Login" />
                     </div>
                 </div>
+                @Html.HiddenFor(m => m.ReturnUrl)
                 @Html.CustomHtml5ValidationInit()
             </fieldset>
         }

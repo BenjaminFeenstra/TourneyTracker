@@ -42,13 +42,16 @@ namespace TourneyTracker.Controllers
             return View(model);
         }
 
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl = "")
         {
-            return View();
+            return View(new LoginModel
+            {
+                ReturnUrl = returnUrl
+            });
         }
 
         [HttpPost]
-        public ActionResult Login(LoginModel model, string returnUrl = "")
+        public ActionResult Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
@@ -58,8 +61,8 @@ namespace TourneyTracker.Controllers
                     FormsAuthentication.SetAuthCookie(model.Email, model.IsPersistent);
 
                     //check for valid return url
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    var returnUrl = model.ReturnUrl;
+                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1)
                     {
                         return Redirect(returnUrl);
                     }
