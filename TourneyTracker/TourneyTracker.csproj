@@ -176,7 +176,6 @@
     <Content Include="Views\Tournament\CreateTournament.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Tournament\Partial\_ParticipantTable.cshtml" />
     <Content Include="Views\Home\EditorTemplates\TestListModel.cshtml" />
     <Content Include="Views\Home\EditorTemplates\TestListModelItem.cshtml" />
     <EntityDeploy Include="TourneyTrackerDB.edmx">
@@ -196,6 +195,7 @@
       <DependentUpon>TourneyTrackerDB.edmx</DependentUpon>
       <LastGenOutput>TourneyTrackerDB.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Tournament\Partial\_ParticipantTable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

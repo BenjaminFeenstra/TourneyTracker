@@ -13,6 +13,7 @@ namespace TourneyTracker.Models.Tournament
         public int TournamentType { get; set; }
         public List<SelectListItem> TournamentTypes { get; set; }
 
+        //not working atm
         public string TournamentTag { get; set; }
 
         public List<string> Participants { get; set; }

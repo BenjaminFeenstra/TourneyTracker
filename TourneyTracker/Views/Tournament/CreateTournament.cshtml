@@ -2,58 +2,61 @@
 
 <h1>Create Tournament</h1>
 
-<div id="createForm" class="row">
-    <div class="col-lg-6">
-        <div class="well bs-component">
-            <form class="form-horizontal">
-                <fieldset>
-                    <legend>Create Tournament</legend>
-                    <div class="form-group">
-                        <div class="col-lg-2">
-                            @Html.LabelFor(m => m.TournamentName, "Name", new { @class = "control-label" })
+@using (Html.BeginForm("SubmitTournament", "Tournament", FormMethod.Post, new { Class = "form-horizontal" }))
+{
+    <div id="createForm" class="row">
+        <div class="col-lg-6">
+            <div class="well bs-component">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend>Create Tournament</legend>
+                        <div class="form-group">
+                            <div class="col-lg-2">
+                                @Html.LabelFor(m => m.TournamentName, "Name", new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-10">
+                                @Html.TextBoxFor(m => m.TournamentName, new { @class = "form-control", @placeholder = "Name", @type = "text", required = true })
+                            </div>
                         </div>
-                        <div class="col-lg-10">
-                            @Html.TextBoxFor(m => m.TournamentName, new { @class = "form-control", @placeholder = "Name", @type = "text" })
+                        <div class="form-group">
+                            <div class="col-lg-2">
+                                @Html.LabelFor(m => m.TournamentType, "Type", new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-10">
+                                @Html.DropDownListFor(m => m.TournamentType, Model.TournamentTypes, "Choose a tournament type", new { @class = "form-control", required=true })
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2">
-                            @Html.LabelFor(m => m.TournamentType, "Type", new { @class = "control-label" })
+                        <div class="form-group">
+                            <div class="col-lg-2">
+                                @Html.LabelFor(m => m.TournamentTag, "Tag", new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-10">
+                                @Html.TextBoxFor(m => m.TournamentTag, new { @class = "form-control", @placeholder = "Tag", @type = "text" })
+                            </div>
                         </div>
-                        <div class="col-lg-10">
-                            @Html.DropDownListFor(m => m.TournamentType, Model.TournamentTypes, "Choose a tournament type", new { @class = "form-control" })
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                @Html.ActionLink("Cancel", "Index", "Tournament", new { @type = "button", @class = "btn btn-default" })
+                                <button type="submit" class="btn btn-primary submitButton">Submit</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-2">
-                            @Html.LabelFor(m => m.TournamentTag, "Tag", new { @class = "control-label" })
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="well bs-component">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <div id="participantTable">
+                            @Html.Partial("~/Views/Tournament/Partial/_ParticipantTable.cshtml", Model)
                         </div>
-                        <div class="col-lg-10">
-                            @Html.TextBoxFor(m => m.TournamentTag, new { @class = "form-control", @placeholder = "Tag", @type = "text" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-10 col-lg-offset-2">
-                            @Html.ActionLink("Cancel", "Index", "Tournament", new { @type = "button", @class = "btn btn-default" })
-                            <button type="button" class="btn btn-primary submitButton">Submit</button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </div>
-    <div class="col-lg-6">
-        <div class="well bs-component">
-            <form class="form-horizontal">
-                <fieldset>
-                    <div id="participantTable">
-                        @Html.Partial("~/Views/Tournament/Partial/_ParticipantTable.cshtml", Model)
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-    </div>
-</div>
+}
 
 <script type="text/javascript">
     $('body').on('click', '.addParticipant', function () {
@@ -68,19 +71,19 @@
                 }
             });
         }
-        else
-        {
+        else {
             //name is only spaces or nothing so error message
         }
     });
 
-    $('body').on('click', '.submitButton', function () {
+    $('body').on('click', '.deleteParticipant', function () {
+        var participantName = $(this).parent().parent().find('.participantName').val();
         $.ajax({
-            url: '@Url.Action("SubmitTournament", "Tournament")',
-            data: $('#createForm :input').serialize(),
+            url: '@Url.Action("RemoveParticipant","Tournament")',
+            data: $('#createForm :input').serialize() + '&participantName=' + participantName,
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-
+                $('#participantTable').html(data);
             }
         });
     });
@@ -88,6 +91,10 @@
 
 
 <style>
+    .hover {
+        cursor: pointer;
+    }
+
     table {
         border-collapse: collapse;
         width: 100%;
