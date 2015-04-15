@@ -128,6 +128,7 @@
       <DependentUpon>TourneyTrackerDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\LoginModel.cs" />
+    <Compile Include="Models\Account\ManageModel.cs" />
     <Compile Include="Models\Tournament\CreateTournamentViewModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="participant.cs">
@@ -193,6 +194,7 @@
       <LastGenOutput>TourneyTrackerDB.cs</LastGenOutput>
     </Content>
     <Content Include="Views\Tournament\Partial\_ParticipantTable.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

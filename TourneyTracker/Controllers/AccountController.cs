@@ -62,7 +62,7 @@ namespace TourneyTracker.Controllers
 
                     //check for valid return url
                     var returnUrl = model.ReturnUrl;
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1)
+                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && !returnUrl.Contains("Register"))
                     {
                         return Redirect(returnUrl);
                     }
@@ -75,15 +75,52 @@ namespace TourneyTracker.Controllers
                 ModelState.AddModelError("Password", "Wachtwoord komt niet overeen met e-mailadres");
             }
 
-            model.Password = "";
             //er is iets fout gegaan
+            model.Password = "";
             return View(model);
         }
 
+        [Authorize]
         public ActionResult Logoff()
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public ActionResult Manage()
+        {
+            return View(new ManageModel
+            {
+                Email = User.Identity.Name
+            });
+        }
+
+        [Authorize]
+        public ActionResult ChangePassword(ManageModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //zoek database naar user en wachtwoord
+                if (AccLogic.ValidateLogin(new LoginModel { Email = model.Email, Password = model.CurrentPassword }))
+                {
+                    AccLogic.ChangePassword(model.Email, model.NewPassword);
+
+                    ModelState.Clear();
+                    FormsAuthentication.SignOut();
+                    return RedirectToAction("Login", "Account");
+                }
+
+                //wachtwoord onjuist
+                ModelState.Remove("CurrentPassword");
+                ModelState.Remove("NewPassword");
+                ModelState.AddModelError("CurrentPassword", "Wachtwoord komt niet overeen met e-mailadres");
+            }
+
+            //er is iets fout gegaan
+            model.CurrentPassword = "";
+            model.NewPassword = "";
+            return View("Manage", model);
         }
     }
 }

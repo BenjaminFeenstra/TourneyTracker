@@ -1,1 +1,16 @@
-﻿<h1>Index</h1>
+﻿<div class="jumbotron">
+    <h1>TourneyTracker</h1>
+    @if (Request.IsAuthenticated)
+    {
+        <p>Welkom back.</p>
+    }
+    else
+    {
+        <p>Create and manage your own tournaments.</p>
+        <p>
+            @Html.ActionLink("Sign up", "Register", "Account", null, new { Class = "btn btn-primary btn-lg" })
+            or
+            @Html.ActionLink("Log in", "Login", "Account", null, new { Class = "btn btn-default btn-lg" })
+        </p>
+    }
+</div>

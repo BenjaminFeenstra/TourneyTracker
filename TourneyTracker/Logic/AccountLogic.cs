@@ -54,5 +54,26 @@ namespace TourneyTracker.Logic
             }
             return false;
         }
+
+        /// <summary>
+        /// Change the password for an account
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        public void ChangePassword(string email, string password)
+        {
+            var account = UnitOfWork.AccountRepository.Find(a => a.emailaddress == email);
+            if (account != null)
+            {
+                var salt = Crypto.GenerateSalt();
+                var stringToHash = password + salt;
+                var hash = Crypto.SHA256(stringToHash);
+
+                account.password_salt = salt;
+                account.password_hash = hash;
+
+                UnitOfWork.AccountRepository.UpdateAndSave(account);
+            }
+        }
     }
 }

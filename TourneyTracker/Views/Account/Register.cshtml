@@ -42,28 +42,5 @@
 
 <script type="text/javascript">
     @Html.CustomHtml5ValidationFor(m => m.Email)
-
-    function validatePassword() {
-        var password = document.getElementById('@Html.IdFor(m => m.Password)');
-        if (password.value.length < 6) {
-            password.setCustomValidity('Password must have at least 6 characters');
-        } else {
-            password.setCustomValidity('');
-        }
-
-        var confirmPassword = document.getElementById('confirmPassword');
-        if (password.value != confirmPassword.value) {
-            confirmPassword.setCustomValidity("Passwords don't match");
-        } else {
-            confirmPassword.setCustomValidity('');
-        }
-    }
-
-    $(document).on('change', '#@Html.IdFor(m => m.Password)', function () {
-        validatePassword();
-    });
-
-    $(document).on('change', '#confirmPassword', function () {
-        validatePassword();
-    });
+    @Html.CustomHtml5PasswordValidationFor(m => m.Password, "confirmPassword")
 </script>

@@ -64,5 +64,11 @@ namespace TourneyTracker
             dbSet.Attach(entity);
             context.Entry(entity).State = EntityState.Modified;
         }
+
+        public virtual void UpdateAndSave(TEntity entity)
+        {
+            Update(entity);
+            Save();
+        }
     }
 }
