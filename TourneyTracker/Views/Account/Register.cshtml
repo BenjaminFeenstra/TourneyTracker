@@ -34,21 +34,14 @@
                         <input type="submit" class="btn btn-primary col-lg-12" value="Create account"/>
                     </div>
                 </div>
-                <button id="fakeSubmit" hidden/>
+                @Html.CustomHtml5ValidationInit();
             </fieldset>
         }
     </div>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        var email = document.getElementById('@Html.IdFor(m => m.Email)');
-        var message = $('@Html.ValidationMessageFor(m => m.Email)').html();
-        if (message.length > 0) {
-            email.setCustomValidity(message);
-            $('#fakeSubmit').click();
-        }
-    });
+    @Html.CustomHtml5ValidationFor(m => m.Email)
 
     function validatePassword() {
         var password = document.getElementById('@Html.IdFor(m => m.Password)');
@@ -65,12 +58,6 @@
             confirmPassword.setCustomValidity('');
         }
     }
-
-    $(document).on('change', '#@Html.IdFor(m => m.Email)', function () {
-        var email = document.getElementById('@Html.IdFor(m => m.Email)');
-        email.setCustomValidity('');
-        email.checkValidity();
-    });
 
     $(document).on('change', '#@Html.IdFor(m => m.Password)', function () {
         validatePassword();

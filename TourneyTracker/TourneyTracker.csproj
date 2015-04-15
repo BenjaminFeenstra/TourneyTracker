@@ -118,6 +118,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="Logic\AccountLogic.cs" />
     <Compile Include="Logic\TournamentLogic.cs" />
     <Compile Include="match.cs">
@@ -126,6 +127,7 @@
     <Compile Include="match_winner_type.cs">
       <DependentUpon>TourneyTrackerDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Tournament\CreateTournamentViewModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Models\Home\IndexModel.cs" />
