@@ -129,8 +129,10 @@
     </Compile>
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\ManageModel.cs" />
+    <Compile Include="Models\Tournament\IndexTournamentViewModel.cs" />
     <Compile Include="Models\Tournament\CreateTournamentViewModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
+    <Compile Include="Models\Tournament\TournamentViewModel.cs" />
     <Compile Include="participant.cs">
       <DependentUpon>TourneyTrackerDB.tt</DependentUpon>
     </Compile>
